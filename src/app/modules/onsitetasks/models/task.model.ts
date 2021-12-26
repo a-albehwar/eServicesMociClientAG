@@ -1,3 +1,5 @@
+import { OnSiteTaskAttachment } from "./taskattachment.model"
+
 export class OnSiteTask{
     ID : any
     UserID!:any
@@ -8,8 +10,10 @@ export class OnSiteTask{
     TaskCompletePercent!:string
     TaskDeadLine!:string
     TaskStatus!:string
+    TaskDate!:string
     Created!:string
     CreatedBy!:string
     Modified!:string
     ModifiedBy!:string
+    Attachments!:OnSiteTaskAttachment[]
 }
