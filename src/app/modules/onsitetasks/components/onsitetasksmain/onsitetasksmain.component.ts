@@ -7,7 +7,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import { OnSiteTask } from 'src/app/modules/onsitetasks/models/task.model';
 import { OnSiteTaskService } from 'src/app/modules/onsitetasks/services/task.service';
 import { ResponseMessage } from 'src/app/core/models/responsemessage.model'
-
+import {MatDialog} from '@angular/material/dialog';
+import { OnsitetaskscreateComponent } from '../onsitetaskscreate/onsitetaskscreate.component';
 // import { Observable, of } from 'rxjs';
 // import { map, mapTo, tap } from 'rxjs/operators'
 
@@ -33,7 +34,7 @@ export class OnsitetasksmainComponent implements AfterViewInit {
   ResponseMessage!:ResponseMessage;
   OnSiteTasks!: OnSiteTask[];
 
-  displayedColumns: string[] = ['id', 'taskTitle', 'taskDescription','created','taskStatus'];
+  displayedColumns: string[] = ['id', 'taskTitle', 'taskDescription','created','taskStatus','taskActions'];
 
 
   // @ViewChild(MatPaginator, {static: true}) set matPaginator(paginator: MatPaginator) { this.dataSource.paginator = paginator; }
@@ -42,7 +43,8 @@ export class OnsitetasksmainComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   //  dataSource!: MatTableDataSource<OnSiteTask>;
    dataSource = new MatTableDataSource<OnSiteTask>();
-  constructor(private onsitetaskservice: OnSiteTaskService ,private changeDetectorRefs: ChangeDetectorRef) {
+  router: any;
+  constructor(private onsitetaskservice: OnSiteTaskService ,private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog) {
     // Create 100 users
     //const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
     
@@ -66,7 +68,13 @@ export class OnsitetasksmainComponent implements AfterViewInit {
       // this.dataSource = new MatTableDataSource(this.OnSiteTasks);
       // this.changeDetectorRefs.detectChanges();
   }
+  openDialog() {
+    const dialogRef = this.dialog.open(OnsitetaskscreateComponent);
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -81,7 +89,15 @@ export class OnsitetasksmainComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  editContact(onsitetask: OnSiteTask) {
+    let route = '/OnSiteTasks/OnSiteTasksCreate';
+    this.router.navigate([route], { queryParams: { id: onsitetask.ID } });
+  }
 
+  viewContact(contact: OnSiteTask) {
+    let route = '/contacts/view-contact';
+    this.router.navigate([route], { queryParams: { id: contact.ID } });
+  }
    
 }
 

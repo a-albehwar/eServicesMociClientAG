@@ -5,6 +5,7 @@ export class OnSiteTask{
     UserID!:any
     TaskTitle! : string
     TaskDescription!:string
+    TaskSubmittedWork!:string
     TaskClassification!:string
     TaskPriority!:string
     TaskCompletePercent!:string

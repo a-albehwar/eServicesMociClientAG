@@ -26,7 +26,8 @@ export class OnsitetaskscreateComponent implements OnInit {
     CreatedBy: '',
     Modified: '',
     ModifiedBy: '',
-    Attachments: []
+    Attachments: [],
+    TaskSubmittedWork: ''
   };
   @ViewChild('fileInput') fileInput!: ElementRef;
   fileAttr = 'اختر الصور والملفات';
@@ -57,6 +58,7 @@ export class OnsitetaskscreateComponent implements OnInit {
     this.onsitetask = {
       TaskTitle: '',
       TaskDescription: '',
+      TaskSubmittedWork:'',
       TaskDate: '',
       ID: undefined,
       UserID: undefined,
@@ -84,26 +86,6 @@ export class OnsitetaskscreateComponent implements OnInit {
         
       });
 
-
-
-      // HTML5 FileReader API
-      // let reader = new FileReader();
-      // let counter=0;
-      // reader.onload = (e: any) => {
-      //   let image = new Image();
-      //   image.src = e.target.result;
-        
-     
-        
-      //   image.onload = rs => {
-         
-      //     let imgBase64Path = e.target.result;
-        
-      //   };
-      // };
-      // reader.readAsDataURL(imgFile.target.files[0]);
-      
-      // Reset if duplicate image uploaded again
       this.fileInput.nativeElement.value = "";
     } else {
       this.fileAttr = 'اختر الملفات';

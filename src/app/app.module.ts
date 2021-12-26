@@ -16,7 +16,8 @@ import { OnsitetaskscreateComponent } from './modules/onsitetasks/components/ons
 import { FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { OnsitetasksdetailsComponent } from './modules/onsitetasks/components/onsitetasksdetails/onsitetasksdetails.component';
-
+import {MatIconModule} from '@angular/material/icon';
+import { MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,9 @@ import { OnsitetasksdetailsComponent } from './modules/onsitetasks/components/on
     MatInputModule,
     MatSortModule,
     HttpClientModule,
-    FormsModule,MatToolbarModule
+    FormsModule,MatToolbarModule,
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,8 +10,8 @@ const routes: Routes = [
   { path: 'Login', component: LoginComponent },
   { path: 'Home', component: HomenavigationComponent },
   { path: 'OnSiteTasks', component: OnsitetasksmainComponent },
-  { path: 'OnSiteTasksCreate', component: OnsitetaskscreateComponent },
-  { path: 'OnSiteTasksDetails', component: OnsitetasksdetailsComponent },
+  { path: 'OnSiteTasks/OnSiteTasksCreate', component: OnsitetaskscreateComponent },
+  { path: 'OnSiteTasks/OnSiteTasksDetails', component: OnsitetasksdetailsComponent },
 
   { path: '',   redirectTo: '/Login', pathMatch: 'full' }, // redirect to `first-component`
   // { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
