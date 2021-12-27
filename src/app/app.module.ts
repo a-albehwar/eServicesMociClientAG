@@ -18,6 +18,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { OnsitetasksdetailsComponent } from './modules/onsitetasks/components/onsitetasksdetails/onsitetasksdetails.component';
 import {MatIconModule} from '@angular/material/icon';
 import { MatDialogModule} from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -38,9 +39,11 @@ import { MatDialogModule} from '@angular/material/dialog';
     MatInputModule,
     MatSortModule,
     HttpClientModule,
-    FormsModule,MatToolbarModule,
+    FormsModule,
+    MatToolbarModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

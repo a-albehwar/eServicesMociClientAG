@@ -53,7 +53,7 @@ export class OnsitetasksmainComponent implements AfterViewInit {
        next: 
       (data) => {
         this.ResponseMessage = data;
-        this.OnSiteTasks=this.ResponseMessage.value;
+        this.OnSiteTasks=this.ResponseMessage.value as OnSiteTask[];
        
         // this.dataSource = new MatTableDataSource(this.OnSiteTasks);
         this.dataSource.data=this.OnSiteTasks;        
@@ -69,7 +69,11 @@ export class OnsitetasksmainComponent implements AfterViewInit {
       // this.changeDetectorRefs.detectChanges();
   }
   openDialog() {
-    const dialogRef = this.dialog.open(OnsitetaskscreateComponent);
+  // this.dialogRef = this.dialog.open(WarningComponent, {
+  //   width: '450px',
+  //   height: '380px',
+  // });
+    const dialogRef = this.dialog.open(OnsitetaskscreateComponent,{id:'createdgid'});
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

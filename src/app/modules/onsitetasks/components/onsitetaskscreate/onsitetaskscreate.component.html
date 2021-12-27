@@ -1,5 +1,10 @@
 <!-- <form name="form" ng-submit="validate()" role="form"> -->
-<form class="form" #taskForm="ngForm" (ngSubmit)="saveTask()" novalidate style="direction: rtl !important"> 
+<form class="form" #taskForm="ngForm" (ngSubmit)="saveTask()" novalidate style="direction: rtl !important;text-align: right;"> 
+  <mat-dialog-actions align="end">
+    <button *ngIf="dialogExist" mat-button mat-dialog-close><mat-icon>close</mat-icon> </button>
+    <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
+    
+  </mat-dialog-actions>
     <div class="submit-form">
       <div > <!--*ngIf="!submitted"-->
         <div class="form-group">
@@ -31,7 +36,7 @@
 
 
         </div>
-  
+        
         <div class="form-group">
           <label for="description">تفاصيل المهمة</label>
           <textarea 
@@ -51,18 +56,24 @@
           </div>
           
         </div>
-
-        <!-- <mat-form-field appearance="fill">
-          <mat-label>Select an option</mat-label>
-          <mat-select [(value)]="selected">
-            <mat-option>None</mat-option>
-            <mat-option value="option1">Option 1</mat-option>
-            <mat-option value="option2">Option 2</mat-option>
-            <mat-option value="option3">Option 3</mat-option>
+      </div>
+      
+      <div class="form-group">
+        <mat-form-field  appearance="fill" style="text-align: right;">
+          <mat-label>اختر اسم المستخدم</mat-label>
+          <mat-select style="text-align: right;" #userngmodel="ngModel" [(ngModel)]="onsitetask.UserID"  name="DisplayName"  required>
+            <!-- <mat-option>--</mat-option> -->
+            <mat-option style="text-align: right;"  *ngFor="let displayuser of Users" value="{{displayuser.id}}" >
+              {{displayuser.userDisplayName}}
+            </mat-option>
           </mat-select>
-        </mat-form-field> -->
+          <mat-error *ngIf="userngmodel.hasError('required')">* برجاء اختيار مستخدم</mat-error>
+          <mat-hint>{{userngmodel.value?.userDisplayName}}</mat-hint> 
+       </mat-form-field>
+    </div>
 
-        <mat-form-field style="direction: rtl; text-align: right;"> 
+    <div class="form-group">   
+       <mat-form-field  style="direction: rtl; text-align: right;"> 
           <div>
             <mat-toolbar>
               <!-- Display files names -->
@@ -79,14 +90,14 @@
             name="uploadFile" multiple="multiple" accept="image/*" />
           </div>
         </mat-form-field>
-        
+      </div>
         <!-- ng-disabled="form.$invalid" -->
-        <div>
-          <button  type="submit" [disabled]="taskForm.invalid"  class="btn btn-success">Submit</button>
+          <div>
+            <button  type="submit" [disabled]="taskForm.invalid"  class="btn btn-success">تقديم</button>
           </div><!-- (click)="saveTask()" -->
 
 
-      </div>
+     
   <!--*ngIf="submitted"-->
       <!-- <div > 
         <h4>Tutorial was submitted successfully!</h4>
@@ -94,5 +105,7 @@
       </div> -->
     </div>
   </div>
+
   </form>
+
   <!-- </form> -->

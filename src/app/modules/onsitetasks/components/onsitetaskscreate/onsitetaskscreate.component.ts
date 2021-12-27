@@ -1,4 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ResponseMessage } from 'src/app/core/models/responsemessage.model';
+import { User } from 'src/app/modules/users/models/user.model';
+import { UserService } from 'src/app/modules/users/services/user.service';
 import { OnSiteTask } from '../../models/task.model';
 import { OnSiteTaskAttachment } from '../../models/taskattachment.model';
 import { OnSiteTaskService } from '../../services/task.service';
@@ -29,19 +33,50 @@ export class OnsitetaskscreateComponent implements OnInit {
     Attachments: [],
     TaskSubmittedWork: ''
   };
+
+  user:User={
+    id: undefined,
+    userDisplayName: '',
+    userEmail: '',
+    userDomainName: '',
+    userMobileNumber: '',
+    userDepartment: '',
+    userJobTitle: '',
+    created: '',
+    createdBy: ''
+  }
+
+  dialogExist:any;
   @ViewChild('fileInput') fileInput!: ElementRef;
   fileAttr = 'اختر الصور والملفات';
+  UserResponseMessage!:ResponseMessage;
+  Users!:User[]
+  //selectedUserValue!:User;
   //fileattachments!:OnSiteTaskAttachment[];
-  constructor(private onsitetaskservice:OnSiteTaskService) { }
+  constructor(private onsitetaskservice:OnSiteTaskService,public dialog: MatDialog,private userservice:UserService) {
+    
+    this.userservice.getAll()
+    .subscribe({
+      next: 
+     (data) => {
+       this.Users=data as User[];    
+       console.log(this.Users);
+     },
+     error: (e) => console.error(e)
+   });
+
+   }
 
   ngOnInit(): void {
+     this.dialogExist = this.dialog.getDialogById('createdgid');
   }
 
   saveTask(): void {
     const data = {
       taskTitle: this.onsitetask.TaskTitle,
       taskDescription: this.onsitetask.TaskDescription,
-      Attachments:this.onsitetask.Attachments
+      Attachments:this.onsitetask.Attachments,
+      UserID:this.onsitetask.UserID
     };
 
     this.onsitetaskservice.create(data)

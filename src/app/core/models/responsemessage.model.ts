@@ -1,7 +1,7 @@
 import { OnSiteTask } from 'src/app/modules/onsitetasks/models/task.model';
 
 export class ResponseMessage{
-value!:OnSiteTask[]
+value!:object//OnSiteTask[]
 StatusCode!:string
 ContentType!:string
 }
