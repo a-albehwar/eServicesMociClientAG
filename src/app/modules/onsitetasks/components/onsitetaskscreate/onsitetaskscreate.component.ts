@@ -16,22 +16,22 @@ export class OnsitetaskscreateComponent implements OnInit {
   // dataSource = new MatTableDataSource<OnSiteTask>();
 
   onsitetask: OnSiteTask =  {
-    TaskTitle: '',
-    TaskDescription: '',
-    TaskDate: '',
-    ID: undefined,
-    UserID: undefined,
-    TaskClassification: '',
-    TaskPriority: '',
-    TaskCompletePercent: '',
-    TaskDeadLine: '',
-    TaskStatus: '',
-    Created: '',
-    CreatedBy: '',
-    Modified: '',
-    ModifiedBy: '',
-    Attachments: [],
-    TaskSubmittedWork: ''
+    id: undefined,
+    userID: undefined,
+    taskTitle: '',
+    taskDescription: '',
+    taskSubmittedWork: '',
+    taskClassification: '',
+    taskPriority: '',
+    taskCompletePercent: '',
+    taskDeadLine: '',
+    taskStatus: '',
+    taskDate: '',
+    created: '',
+    createdBy: '',
+    modified: '',
+    modifiedBy: '',
+    attachments: []
   };
 
   user:User={
@@ -73,10 +73,10 @@ export class OnsitetaskscreateComponent implements OnInit {
 
   saveTask(): void {
     const data = {
-      taskTitle: this.onsitetask.TaskTitle,
-      taskDescription: this.onsitetask.TaskDescription,
-      Attachments:this.onsitetask.Attachments,
-      UserID:this.onsitetask.UserID
+      taskTitle: this.onsitetask.taskTitle,
+      taskDescription: this.onsitetask.taskDescription,
+      Attachments:this.onsitetask.attachments,
+      UserID:this.onsitetask.userID
     };
 
     this.onsitetaskservice.create(data)
@@ -89,26 +89,26 @@ export class OnsitetaskscreateComponent implements OnInit {
         
       });
   }
-  newTask():void{
-    this.onsitetask = {
-      TaskTitle: '',
-      TaskDescription: '',
-      TaskSubmittedWork:'',
-      TaskDate: '',
-      ID: undefined,
-      UserID: undefined,
-      TaskClassification: '',
-      TaskPriority: '',
-      TaskCompletePercent: '',
-      TaskDeadLine: '',
-      TaskStatus: '',
-      Created: '',
-      CreatedBy: '',
-      Modified: '',
-      ModifiedBy: '',
-      Attachments:[]
-    };
-  }
+  // newTask():void{
+  //   this.onsitetask = {
+  //     TaskTitle: '',
+  //     TaskDescription: '',
+  //     TaskSubmittedWork:'',
+  //     TaskDate: '',
+  //     ID: undefined,
+  //     UserID: undefined,
+  //     TaskClassification: '',
+  //     TaskPriority: '',
+  //     TaskCompletePercent: '',
+  //     TaskDeadLine: '',
+  //     TaskStatus: '',
+  //     Created: '',
+  //     CreatedBy: '',
+  //     Modified: '',
+  //     ModifiedBy: '',
+  //     Attachments:[]
+  //   };
+  // }
 
    uploadFileEvt(imgFile: any) {
     if (imgFile.target.files && imgFile.target.files[0]) {
@@ -136,9 +136,9 @@ export class OnsitetaskscreateComponent implements OnInit {
 
       const result: string = reader.result as string;
       let attachment:OnSiteTaskAttachment =new OnSiteTaskAttachment();
-      attachment.Attachment=result;
-      attachment.Created=Date.now().toLocaleString();
-      self.onsitetask.Attachments.push(attachment);
+      attachment.attachment=result;
+      attachment.created=Date.now().toLocaleString();
+      self.onsitetask.attachments.push(attachment);
       // return result;
     };
   

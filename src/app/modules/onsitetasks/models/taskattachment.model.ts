@@ -1,10 +1,10 @@
 
 export class OnSiteTaskAttachment{
-    ID:any
-    TaskID:any
-    Attachment!:string
-    Created!:string
-    CreatedBy!:string
-    Modified!:string
-    ModifiedBy!:string
+    id:any
+    eTaskID:any
+    attachment!:string
+    created!:string
+    createdBy!:string
+    modified!:string
+    modifiedBy!:string
 }

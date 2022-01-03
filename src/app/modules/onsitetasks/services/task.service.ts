@@ -22,8 +22,8 @@ const baseUrl = 'https://localhost:7077/api/Tasks';
         return this.http.get<ResponseMessage>(baseUrl);
       }
   
-    get(id: any): Observable<OnSiteTask> {
-      return this.http.get<OnSiteTask>(`${baseUrl}/${id}`);
+    get(id: any): Observable<ResponseMessage> {
+      return this.http.get<ResponseMessage>(`${baseUrl}/${id}`);
     }
   
     create(data: any): Observable<any> {
@@ -31,7 +31,8 @@ const baseUrl = 'https://localhost:7077/api/Tasks';
     }
   
     update(id: any, data: any): Observable<any> {
-      return this.http.put(`${baseUrl}/${id}`, data);
+      // return this.http.put(`${baseUrl}/${id}`, data);
+      return this.http.put(`${baseUrl}`, data);
     }
   
     delete(id: any): Observable<any> {

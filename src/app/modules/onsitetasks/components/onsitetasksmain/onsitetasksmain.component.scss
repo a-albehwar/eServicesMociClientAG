@@ -9,6 +9,7 @@ table {
   
   td, th {
     width: 25%;
+   
   }
 
   .mat-column-id {
@@ -23,3 +24,15 @@ table {
 .mat-column-taskDescription {
   width:  15%;
 }
+.mat-paginator-range-label{
+  direction: ltr !important;
+}
+// .mat-paginator.mat-paginator-outer-container.mat-paginator-container.mat-paginator-range-actions.mat-paginator-range-label
+::ng-deep .mat-paginator {
+  .mat-paginator-range-label {
+    direction: ltr !important;
+    //margin: 0;
+    order :2;
+  }
+}
+// * { direction: rtl;text-align: right; }

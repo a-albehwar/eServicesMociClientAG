@@ -1,6 +1,6 @@
 // import { Component, OnInit } from '@angular/core';
 import {AfterViewInit, ChangeDetectorRef, Component,OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 
@@ -9,6 +9,7 @@ import { OnSiteTaskService } from 'src/app/modules/onsitetasks/services/task.ser
 import { ResponseMessage } from 'src/app/core/models/responsemessage.model'
 import {MatDialog} from '@angular/material/dialog';
 import { OnsitetaskscreateComponent } from '../onsitetaskscreate/onsitetaskscreate.component';
+import { OnsitetasksdetailsComponent } from '../onsitetasksdetails/onsitetasksdetails.component';
 // import { Observable, of } from 'rxjs';
 // import { map, mapTo, tap } from 'rxjs/operators'
 
@@ -44,10 +45,17 @@ export class OnsitetasksmainComponent implements AfterViewInit {
   //  dataSource!: MatTableDataSource<OnSiteTask>;
    dataSource = new MatTableDataSource<OnSiteTask>();
   router: any;
-  constructor(private onsitetaskservice: OnSiteTaskService ,private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog) {
+  constructor(private onsitetaskservice: OnSiteTaskService ,
+    private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog,
+    public _MatPaginatorIntl: MatPaginatorIntl) {
     // Create 100 users
     //const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
-    
+    this._MatPaginatorIntl.itemsPerPageLabel = 'عدد المهمات فى الصفحة';
+    // this._MatPaginatorIntl.firstPageLabel = 'your custom text 2';
+    // this._MatPaginatorIntl.lastPageLabel = 'your custom text 4';
+    // this._MatPaginatorIntl.nextPageLabel = 'your custom text 5';
+    // this._MatPaginatorIntl.previousPageLabel = 'your custom text 6'; 
+
     this.onsitetaskservice.getAll()
      .subscribe({
        next: 
@@ -79,7 +87,20 @@ export class OnsitetasksmainComponent implements AfterViewInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+  openEditDialog(rowid:any) {
 
+      const dialogRef = this.dialog.open(OnsitetasksdetailsComponent,
+        { 
+          id:'edittaskgid',
+          data: {id: rowid, mode: 'view'},
+          height:'500px'
+        }
+      );
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+    }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -95,12 +116,12 @@ export class OnsitetasksmainComponent implements AfterViewInit {
   }
   editContact(onsitetask: OnSiteTask) {
     let route = '/OnSiteTasks/OnSiteTasksCreate';
-    this.router.navigate([route], { queryParams: { id: onsitetask.ID } });
+    this.router.navigate([route], { queryParams: { id: onsitetask.id } });
   }
 
   viewContact(contact: OnSiteTask) {
     let route = '/contacts/view-contact';
-    this.router.navigate([route], { queryParams: { id: contact.ID } });
+    this.router.navigate([route], { queryParams: { id: contact.id } });
   }
    
 }

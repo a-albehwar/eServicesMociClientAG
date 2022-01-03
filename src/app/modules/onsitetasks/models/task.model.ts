@@ -1,20 +1,20 @@
 import { OnSiteTaskAttachment } from "./taskattachment.model"
 
 export class OnSiteTask{
-    ID : any
-    UserID!:any
-    TaskTitle! : string
-    TaskDescription!:string
-    TaskSubmittedWork!:string
-    TaskClassification!:string
-    TaskPriority!:string
-    TaskCompletePercent!:string
-    TaskDeadLine!:string
-    TaskStatus!:string
-    TaskDate!:string
-    Created!:string
-    CreatedBy!:string
-    Modified!:string
-    ModifiedBy!:string
-    Attachments!:OnSiteTaskAttachment[]
+    id : any
+    userID!:any
+    taskTitle! : string
+    taskDescription!:string
+    taskSubmittedWork!:string
+    taskClassification!:string
+    taskPriority!:string
+    taskCompletePercent!:string
+    taskDeadLine!:string
+    taskStatus!:string
+    taskDate!:string
+    created!:string
+    createdBy!:string
+    modified!:string
+    modifiedBy!:string
+    attachments!:OnSiteTaskAttachment[]
 }
