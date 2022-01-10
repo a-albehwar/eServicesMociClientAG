@@ -68,7 +68,8 @@
         <div class="form-group">
             <label>صور التقارير</label>
             <!-- #reports="ngModel" [(ngModel)]="onsitetask.attachments" -->
-            <input #reports="ngModel"  [(ngModel)]="fileAttr" observeFiles   class="form-control" type="file" #fileInput
+            <input  [ngStyle]="{'display': onsitetask.taskStatus == 'تم انجاز المهمة' ? 'none':isAdmin?'none':''}" 
+                #reports="ngModel"  [(ngModel)]="fileAttr" observeFiles   class="form-control" type="file" #fileInput
                 id="uploadFile" (change)="uploadFileEvt($event)" name="uploadFile" multiple="multiple" accept="image/*"
                 required >
             <!-- <p ng-show="taskForm.uploadFile.$invalid && !userForm.filetest.$touched" class="help-block">File is required.</p> -->
@@ -86,7 +87,7 @@
         </div>
         <br>
         <div class="form-group">
-            <button type="submit" [disabled]="taskForm.invalid" class="btn btn-success">تقديم نتائج عمل المهمة</button>
+            <button *ngIf="!isAdmin" type="submit" [disabled]="taskForm.invalid" class="btn btn-success">تقديم نتائج عمل المهمة</button>
         </div>
 
     </div>

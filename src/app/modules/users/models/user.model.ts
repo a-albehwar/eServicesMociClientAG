@@ -8,5 +8,7 @@ export class User{
     userJobTitle!:string
     created!:string
     createdBy!:string
-
+    roleID:any
+    roleName!:string
+    loginStatus!:string
 }

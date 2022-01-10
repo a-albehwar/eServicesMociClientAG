@@ -25,6 +25,9 @@ const baseUrl = 'http://localhost:5240';
     get(id: any): Observable<User> {
       return this.http.get<User>(`${baseUrl}/${id}`);
     }
+    login(uname: string,pw:string): Observable<User> {
+      return this.http.get<User>(`${baseUrl}/Login/${uname}/${pw}`);
+    }
   
     create(data: any): Observable<any> {
       return this.http.post(baseUrl, data);

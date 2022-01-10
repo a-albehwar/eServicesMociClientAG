@@ -1,15 +1,16 @@
 // import { Component, OnInit } from '@angular/core';
-import {AfterViewInit, ChangeDetectorRef, Component,OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { OnSiteTask } from 'src/app/modules/onsitetasks/models/task.model';
 import { OnSiteTaskService } from 'src/app/modules/onsitetasks/services/task.service';
 import { ResponseMessage } from 'src/app/core/models/responsemessage.model'
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { OnsitetaskscreateComponent } from '../onsitetaskscreate/onsitetaskscreate.component';
 import { OnsitetasksdetailsComponent } from '../onsitetasksdetails/onsitetasksdetails.component';
+import { User } from 'src/app/modules/users/models/user.model';
 // import { Observable, of } from 'rxjs';
 // import { map, mapTo, tap } from 'rxjs/operators'
 
@@ -32,10 +33,10 @@ import { OnsitetasksdetailsComponent } from '../onsitetasksdetails/onsitetasksde
 
 export class OnsitetasksmainComponent implements AfterViewInit {
 
-  ResponseMessage!:ResponseMessage;
+  ResponseMessage!: ResponseMessage;
   OnSiteTasks!: OnSiteTask[];
 
-  displayedColumns: string[] = ['id', 'taskTitle', 'taskDescription','created','taskStatus','taskActions'];
+  displayedColumns: string[] = ['id', 'taskTitle', 'taskDate','userDisplayName', 'taskStatus', 'taskActions'];
 
 
   // @ViewChild(MatPaginator, {static: true}) set matPaginator(paginator: MatPaginator) { this.dataSource.paginator = paginator; }
@@ -43,10 +44,14 @@ export class OnsitetasksmainComponent implements AfterViewInit {
   // @ViewChild(MatSort, {static: true}) set MatSort(sort: MatSort) { this.dataSource.sort = sort; }
   @ViewChild(MatSort) sort!: MatSort;
   //  dataSource!: MatTableDataSource<OnSiteTask>;
-   dataSource = new MatTableDataSource<OnSiteTask>();
+  dataSource = new MatTableDataSource<OnSiteTask>();
   router: any;
-  constructor(private onsitetaskservice: OnSiteTaskService ,
-    private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog,
+  CurrentUser!: any;
+  ParsedCurrentUser!: User;
+  isAdmin!:boolean;
+
+  constructor(private onsitetaskservice: OnSiteTaskService,
+    private changeDetectorRefs: ChangeDetectorRef, public dialog: MatDialog,
     public _MatPaginatorIntl: MatPaginatorIntl) {
     // Create 100 users
     //const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
@@ -56,51 +61,82 @@ export class OnsitetasksmainComponent implements AfterViewInit {
     // this._MatPaginatorIntl.nextPageLabel = 'your custom text 5';
     // this._MatPaginatorIntl.previousPageLabel = 'your custom text 6'; 
 
-    this.onsitetaskservice.getAll()
-     .subscribe({
-       next: 
-      (data) => {
-        this.ResponseMessage = data;
-        this.OnSiteTasks=this.ResponseMessage.value as OnSiteTask[];
-       
-        // this.dataSource = new MatTableDataSource(this.OnSiteTasks);
-        this.dataSource.data=this.OnSiteTasks;        
-        console.log(data);
-      },
-      error: (e) => console.error(e)
-    });
-
-
-    
+    this.CurrentUser = localStorage.getItem('CurrentUser');
+    this.ParsedCurrentUser = JSON.parse(this.CurrentUser);
+    this.isAdmin=this.ParsedCurrentUser.roleID==1?true:false;
+    this.fillTasks();
     // Assign the data to the data source for the table to render
-      // this.dataSource = new MatTableDataSource(this.OnSiteTasks);
-      // this.changeDetectorRefs.detectChanges();
+    // this.dataSource = new MatTableDataSource(this.OnSiteTasks);
+    // this.changeDetectorRefs.detectChanges();
+  }
+  fillTasks()
+  {
+    if (this.ParsedCurrentUser.roleID == 1) //manager
+    {
+      this.getAllTasks();
+    }
+    else if (this.ParsedCurrentUser.roleID == 2)//supervisor    
+    {
+      this.getMyTasks();
+    }
+  }
+  getAllTasks() {
+    this.onsitetaskservice.getAll()
+      .subscribe({
+        next:
+          (data) => {
+            this.ResponseMessage = data;
+            this.OnSiteTasks = this.ResponseMessage.value as OnSiteTask[];
+
+            // this.dataSource = new MatTableDataSource(this.OnSiteTasks);
+            this.dataSource.data = this.OnSiteTasks;
+            console.log(data);
+          },
+        error: (e) => console.error(e)
+      });
+  }
+  getMyTasks() {
+    this.onsitetaskservice.getMyTasks(this.ParsedCurrentUser.id)
+      .subscribe({
+        next:
+          (data) => {
+            this.ResponseMessage = data;
+            this.OnSiteTasks = this.ResponseMessage.value as OnSiteTask[];
+
+            // this.dataSource = new MatTableDataSource(this.OnSiteTasks);
+            this.dataSource.data = this.OnSiteTasks;
+            console.log(data);
+          },
+        error: (e) => console.error(e)
+      });
   }
   openDialog() {
-  // this.dialogRef = this.dialog.open(WarningComponent, {
-  //   width: '450px',
-  //   height: '380px',
-  // });
-    const dialogRef = this.dialog.open(OnsitetaskscreateComponent,{id:'createdgid'});
+    // this.dialogRef = this.dialog.open(WarningComponent, {
+    //   width: '450px',
+    //   height: '380px',
+    // });
+    const dialogRef = this.dialog.open(OnsitetaskscreateComponent, { id: 'createdgid' });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.fillTasks();
       console.log(`Dialog result: ${result}`);
     });
   }
-  openEditDialog(rowid:any) {
+  openEditDialog(rowid: any) {
 
-      const dialogRef = this.dialog.open(OnsitetasksdetailsComponent,
-        { 
-          id:'edittaskgid',
-          data: {id: rowid, mode: 'view'},
-          height:'500px'
-        }
-      );
-  
-      dialogRef.afterClosed().subscribe(result => {
-        console.log(`Dialog result: ${result}`);
-      });
-    }
+    const dialogRef = this.dialog.open(OnsitetasksdetailsComponent,
+      {
+        id: 'edittaskgid',
+        data: { id: rowid, mode: 'view' },
+        height: '500px'
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.fillTasks();
+      console.log(`Dialog result: ${result}`);
+    });
+  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -123,7 +159,7 @@ export class OnsitetasksmainComponent implements AfterViewInit {
     let route = '/contacts/view-contact';
     this.router.navigate([route], { queryParams: { id: contact.id } });
   }
-   
+
 }
 
 /** Builds and returns a new User. */

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homenavigation',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomenavigationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route:Router) { }
 
   ngOnInit(): void {
+  }
+  RedirectToTasks():void{
+    this.route.navigate(['/OnSiteTasks']);
   }
 
 }

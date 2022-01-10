@@ -21,7 +21,11 @@ const baseUrl = 'https://localhost:7077/api/Tasks';
     getAll(): Observable<ResponseMessage> {
         return this.http.get<ResponseMessage>(baseUrl);
       }
-  
+
+    getMyTasks(userId:any): Observable<ResponseMessage> {
+        return this.http.get<ResponseMessage>(`${baseUrl}/getMyTasks/${userId}`);
+      }
+
     get(id: any): Observable<ResponseMessage> {
       return this.http.get<ResponseMessage>(`${baseUrl}/${id}`);
     }

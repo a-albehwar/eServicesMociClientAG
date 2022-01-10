@@ -6,6 +6,7 @@ import { OnSiteTaskService } from '../../services/task.service';
 import { OnSiteTaskAttachment } from '../../models/taskattachment.model';
 import { ResponseMessage } from 'src/app/core/models/responsemessage.model';
 import { MatDialog } from '@angular/material/dialog';
+import { User } from 'src/app/modules/users/models/user.model';
 
 @Component({
   selector: 'app-onsitetasksdetails',
@@ -30,7 +31,8 @@ export class OnsitetasksdetailsComponent implements OnInit {
     createdBy: '',
     modified: '',
     modifiedBy: '',
-    attachments: []
+    attachments: [],
+    userDisplayName: ''
   };
 
   dialogExist:any;
@@ -38,6 +40,9 @@ export class OnsitetasksdetailsComponent implements OnInit {
   fileAttr!:File[] | null;
   ResponseMessage!:ResponseMessage;
   parameters:any;
+  CurrentUser: any;
+  ParsedCurrentUser: User;
+  isAdmin: boolean;
 
   constructor(private route: ActivatedRoute, private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: {
@@ -45,12 +50,15 @@ export class OnsitetasksdetailsComponent implements OnInit {
       mode: any
     }
   , private onsitetaskservice:OnSiteTaskService,public dialog: MatDialog) { 
+    this.CurrentUser = localStorage.getItem('CurrentUser');
+    this.ParsedCurrentUser = JSON.parse(this.CurrentUser);
+    this.isAdmin=this.ParsedCurrentUser.roleID==1?true:false;
     this.parameters=data;
     this.onsitetaskservice.get(data.id)
      .subscribe({
        next: 
-      (data) => {
-        this.ResponseMessage = data;
+      (response) => {
+        this.ResponseMessage = response;
         this.onsitetask=this.ResponseMessage.value as OnSiteTask;
        
         // this.dataSource = new MatTableDataSource(this.OnSiteTasks);
@@ -80,9 +88,12 @@ export class OnsitetasksdetailsComponent implements OnInit {
       id:this.onsitetask.id,
       taskTitle: this.onsitetask.taskTitle,
       taskDescription: this.onsitetask.taskDescription,
-      Attachments:this.onsitetask.attachments,
-      //UserID:this.onsitetask.userID
-      taskSubmittedWork:this.onsitetask.taskSubmittedWork
+      attachments:this.onsitetask.attachments,
+      userID:this.onsitetask.userID,
+      userDisplayName:this.onsitetask.userDisplayName,
+      taskSubmittedWork:this.onsitetask.taskSubmittedWork,
+      taskDate:this.onsitetask.taskDate,
+      taskStatus:"تم انجاز المهمة"
     };
 
     this.onsitetaskservice.update(data.id,data)

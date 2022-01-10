@@ -19,10 +19,16 @@ table {
   width:  10%;
 }
 .mat-column-taskActions {
-  width:  25%;
+  width:  15%;
 }
 .mat-column-taskDescription {
   width:  15%;
+}
+.mat-column-userDisplayName {
+  width:  15%;
+}
+.mat-column-taskDate {
+  width:  10%;
 }
 .mat-paginator-range-label{
   direction: ltr !important;
@@ -34,5 +40,9 @@ table {
     //margin: 0;
     order :2;
   }
+}
+
+.mat-header-cell {
+  background: rgba(0, 0, 0, 0.12);
 }
 // * { direction: rtl;text-align: right; }

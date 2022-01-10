@@ -3,6 +3,7 @@ import { OnSiteTaskAttachment } from "./taskattachment.model"
 export class OnSiteTask{
     id : any
     userID!:any
+    userDisplayName!:string
     taskTitle! : string
     taskDescription!:string
     taskSubmittedWork!:string

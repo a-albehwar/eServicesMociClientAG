@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelectChange } from '@angular/material/select';
 import { ResponseMessage } from 'src/app/core/models/responsemessage.model';
 import { User } from 'src/app/modules/users/models/user.model';
 import { UserService } from 'src/app/modules/users/services/user.service';
@@ -31,7 +32,8 @@ export class OnsitetaskscreateComponent implements OnInit {
     createdBy: '',
     modified: '',
     modifiedBy: '',
-    attachments: []
+    attachments: [],
+    userDisplayName: ''
   };
 
   user:User={
@@ -43,14 +45,19 @@ export class OnsitetaskscreateComponent implements OnInit {
     userDepartment: '',
     userJobTitle: '',
     created: '',
-    createdBy: ''
+    createdBy: '',
+    roleID: undefined,
+    roleName: '',
+    loginStatus: ''
   }
 
   dialogExist:any;
   @ViewChild('fileInput') fileInput!: ElementRef;
   fileAttr = 'اختر الصور والملفات';
   UserResponseMessage!:ResponseMessage;
-  Users!:User[]
+  Users!:User[];
+  // selectedUser!:any;
+  // ParsedSelectedUser!:User;
   //selectedUserValue!:User;
   //fileattachments!:OnSiteTaskAttachment[];
   constructor(private onsitetaskservice:OnSiteTaskService,public dialog: MatDialog,private userservice:UserService) {
@@ -72,22 +79,31 @@ export class OnsitetaskscreateComponent implements OnInit {
   }
 
   saveTask(): void {
+    // this.ParsedSelectedUser=JSON.parse(this.selectedUser);
     const data = {
       taskTitle: this.onsitetask.taskTitle,
       taskDescription: this.onsitetask.taskDescription,
-      Attachments:this.onsitetask.attachments,
-      UserID:this.onsitetask.userID
+      attachments: this.onsitetask.attachments,
+      userID:this.onsitetask.userID,
+      UserDisplayName:this.onsitetask.userDisplayName,
+      taskDate:this.onsitetask.taskDate,
+      taskStatus:"مهمة جديدة"
     };
 
     this.onsitetaskservice.create(data)
       .subscribe({
         next: (res) => {
           console.log(res);
-          alert('تم انشاء المهمة بنجاح');
+          // alert('تم انشاء المهمة بنجاح');
         },
         error: (e) => console.error(e)
         
       });
+      this.dialog.closeAll();
+
+  }
+  OnUserChanged(c:any){
+    this.onsitetask.userDisplayName=c.userDisplayName;
   }
   // newTask():void{
   //   this.onsitetask = {
