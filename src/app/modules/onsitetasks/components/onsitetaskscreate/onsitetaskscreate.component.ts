@@ -94,12 +94,13 @@ export class OnsitetaskscreateComponent implements OnInit {
       .subscribe({
         next: (res) => {
           console.log(res);
-          // alert('تم انشاء المهمة بنجاح');
+          alert('تم انشاء المهمة بنجاح');
+          this.dialog.closeAll();
         },
         error: (e) => console.error(e)
         
       });
-      this.dialog.closeAll();
+     
 
   }
   OnUserChanged(c:any){

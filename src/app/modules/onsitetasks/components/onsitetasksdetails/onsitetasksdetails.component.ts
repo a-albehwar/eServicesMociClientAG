@@ -7,6 +7,7 @@ import { OnSiteTaskAttachment } from '../../models/taskattachment.model';
 import { ResponseMessage } from 'src/app/core/models/responsemessage.model';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/modules/users/models/user.model';
+import { EmailService } from 'src/app/core/services/email.service';
 
 @Component({
   selector: 'app-onsitetasksdetails',
@@ -49,7 +50,8 @@ export class OnsitetasksdetailsComponent implements OnInit {
       id: any,
       mode: any
     }
-  , private onsitetaskservice:OnSiteTaskService,public dialog: MatDialog) { 
+  , private onsitetaskservice:OnSiteTaskService,public dialog: MatDialog ,
+    private emailservice:EmailService) { 
     this.CurrentUser = localStorage.getItem('CurrentUser');
     this.ParsedCurrentUser = JSON.parse(this.CurrentUser);
     this.isAdmin=this.ParsedCurrentUser.roleID==1?true:false;
@@ -100,7 +102,31 @@ export class OnsitetasksdetailsComponent implements OnInit {
       .subscribe({
         next: (res) => {
           console.log(res);
+          //this.sendEmail("a.albehwar20@gmail.com",this.onsitetask.taskTitle+ "تم رفع تقارير مهمة : ","عزيزى المدير , لقد تم تحديث بيانات وتقرير المهمة");
+          
           alert('تم تحديث المهمة بنجاح');
+          this.dialog.closeAll();
+        },
+        error: (e) => console.error(e)
+        
+      });
+      
+  }
+
+  sendEmail(EmailToAddress:string,Subject:string,Body:string): void {
+    const data = {
+      EmailFromAddress:"risk4win@gmail.com",
+      Password: "subnighn14RN@13",
+      EmailToAddress: EmailToAddress,
+      Subject:Subject,
+      Body:Body      
+    };
+
+    this.emailservice.sendemail(data)
+      .subscribe({
+        next: (res) => {
+          console.log("email sent");
+          
         },
         error: (e) => console.error(e)
         
