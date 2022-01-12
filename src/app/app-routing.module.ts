@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'OnSiteTasks/OnSiteTasksCreate', component: OnsitetaskscreateComponent },
   { path: 'OnSiteTasks/OnSiteTasksDetails', component: OnsitetasksdetailsComponent },
 
-  { path: '',   redirectTo: '/Login', pathMatch: 'full' }, // redirect to `first-component`
+  { path: '',   redirectTo: '/Home', pathMatch: 'full' }, // redirect to `first-component`
   // { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
 ];
 
