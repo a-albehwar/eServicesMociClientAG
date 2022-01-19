@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { OnSiteTask } from '../models/task.model';
 import { ResponseMessage } from 'src/app/core/models/responsemessage.model';
 
-const baseUrl = 'https://localhost:7077/api/Tasks';
+// const baseUrl = 'https://localhost:7077/api/Tasks';
+const baseUrl = 'http://40.123.228.222/eServicesMociTasks/api/Tasks';
 
 
 @Injectable({

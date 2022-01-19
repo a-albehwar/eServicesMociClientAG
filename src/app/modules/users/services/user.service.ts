@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { ResponseMessage } from 'src/app/core/models/responsemessage.model';
 
-const baseUrl = 'http://localhost:5240';
-
+// const baseUrl = 'http://localhost:5240';
+const baseUrl = 'http://40.123.228.222/eServicesMociUsers';
 
 @Injectable({
     providedIn: 'root'

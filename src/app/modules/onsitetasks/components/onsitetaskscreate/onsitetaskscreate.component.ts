@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { ResponseMessage } from 'src/app/core/models/responsemessage.model';
+import { EmailService } from 'src/app/core/services/email.service';
 import { User } from 'src/app/modules/users/models/user.model';
 import { UserService } from 'src/app/modules/users/services/user.service';
 import { OnSiteTask } from '../../models/task.model';
@@ -56,11 +57,13 @@ export class OnsitetaskscreateComponent implements OnInit {
   fileAttr = 'اختر الصور والملفات';
   UserResponseMessage!:ResponseMessage;
   Users!:User[];
+  EmailTo!:string;
   // selectedUser!:any;
   // ParsedSelectedUser!:User;
   //selectedUserValue!:User;
   //fileattachments!:OnSiteTaskAttachment[];
-  constructor(private onsitetaskservice:OnSiteTaskService,public dialog: MatDialog,private userservice:UserService) {
+  constructor(private onsitetaskservice:OnSiteTaskService,public dialog: MatDialog,
+    private userservice:UserService , private emailservice:EmailService) {
     
     this.userservice.getAll()
     .subscribe({
@@ -95,6 +98,7 @@ export class OnsitetaskscreateComponent implements OnInit {
         next: (res) => {
           console.log(res);
           alert('تم انشاء المهمة بنجاح');
+          this.sendEmail(this.EmailTo,data.taskTitle,data.taskDescription);
           this.dialog.closeAll();
         },
         error: (e) => console.error(e)
@@ -105,6 +109,28 @@ export class OnsitetaskscreateComponent implements OnInit {
   }
   OnUserChanged(c:any){
     this.onsitetask.userDisplayName=c.userDisplayName;
+    this.EmailTo=c.userEmail;
+  }
+
+  sendEmail(EmailToAddress:string,Subject:string,Body:string): void {
+    const data = {
+      EmailFromAddress:"risk4win@gmail.com",
+      Password: "subnighn14RN@13",
+      EmailToAddress: EmailToAddress,
+      Subject:Subject,
+      Body:Body      
+    };
+
+    this.emailservice.sendemail(data)
+      .subscribe({
+        next: (res) => {
+          console.log("email sent");
+          
+        },
+        error: (e) => console.error(e)
+        
+      });
+      this.dialog.closeAll();
   }
   // newTask():void{
   //   this.onsitetask = {

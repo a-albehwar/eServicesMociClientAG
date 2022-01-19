@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
-const baseUrl = 'https://localhost:7077/api/Tasks';
-
+// const baseUrl = 'https://localhost:7077/api/Tasks';
+const baseUrl = 'http://40.123.228.222/eServicesMociTasks/api/Tasks';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +14,7 @@ const baseUrl = 'https://localhost:7077/api/Tasks';
     constructor(private http: HttpClient) { }
   
     sendemail(data: any): Observable<any> {
-      return this.http.post(`${baseUrl}/getMyTasks`, data);
+      return this.http.post(`${baseUrl}/SendEmail`, data);
     }
   
     
